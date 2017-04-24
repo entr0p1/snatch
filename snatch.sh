@@ -57,7 +57,7 @@ Snatch_Version=1.0
 Snatch_WorkingDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 Snatch_LogTimestamp="$(date "+%Y.%m.%d-%H.%M.%S")"
 Snatch_LogFile="$Snatch_LogTimestamp"_snatch.log
-Snatch_Log="$Snatch_LogPath"/"$Snatch_LogFile"
+Snatch_Log="$Snatch_LogDirectory"/"$Snatch_LogFile"
 Snatch_LogInitialised=false
 #//End System Configuration//
 
@@ -97,10 +97,10 @@ if [ -z "$(which shasum)" ]; then
     echo "    -ERROR: Unable to locate shasum executable. Please ensure it is installed."
     exit 1
 fi
-if [ ! -d $Snatch_LogPath ]; then
-    mkdir "$Snatch_LogPath">>/dev/null
-    if [ ! -d $Snatch_LogPath ]; then
-        echo "   -ERROR: Unable to create the log folder at $Snatch_LogPath"
+if [ ! -d $Snatch_LogDirectory ]; then
+    mkdir "$Snatch_LogDirectory">>/dev/null
+    if [ ! -d $Snatch_LogDirectory ]; then
+        echo "   -ERROR: Unable to create the log folder at $Snatch_LogDirectory"
         exit 1
     fi
 fi
@@ -129,7 +129,7 @@ while read URL; do
         if [ ! -d "$Snatch_Destination/$Snatch_DerivedPath" ]; then
             mkdir -p "$Snatch_Destination/$Snatch_DerivedPath"
         fi
-        wget -a "$Snatch_Log" -N -nv -c -P "$Snatch_Destination/$Snatch_DerivedPath/" "$URL"
+        wget --show-progress -a "$Snatch_Log" -N  -c -P "$Snatch_Destination/$Snatch_DerivedPath/" "$URL"
         if [ "$Snatch_CalculateSHA256" == true ]; then
             Snatch_LogTee "Generating SHA256 Checksum: $Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName.checksum"
             shasum -a 256 "$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName">>"$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName.checksum"
@@ -139,7 +139,7 @@ while read URL; do
         if [ ! -d "$Snatch_Destination" ]; then
             mkdir -p "$Snatch_Destination"
         fi
-        wget -a "$Snatch_Log" -N -nv -c -P "$Snatch_Destination/" "$URL"
+        wget --show-progress -a "$Snatch_Log" -N -c -P "$Snatch_Destination/" "$URL"
         if [ "$Snatch_CalculateSHA256" == true ]; then
             Snatch_LogTee "Generating SHA256 Checksum: $Snatch_Destination/$Snatch_CurrentFileName.checksum"
             shasum -a 256 "$Snatch_Destination/$Snatch_CurrentFileName">>"$Snatch_Destination/$Snatch_CurrentFileName.checksum"
