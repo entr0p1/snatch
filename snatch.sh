@@ -132,7 +132,7 @@ while read URL; do
         wget --show-progress -a "$Snatch_Log" -N  -c -P "$Snatch_Destination/$Snatch_DerivedPath/" "$URL"
         if [ "$Snatch_CalculateSHA256" == true ]; then
             Snatch_LogTee "Generating SHA256 Checksum: $Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName.checksum"
-            shasum -a 256 "$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName">>"$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName.checksum"
+            shasum -a 256 "$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName">"$Snatch_Destination/$Snatch_DerivedPath/$Snatch_CurrentFileName.checksum"
         fi
     else
         Snatch_LogTee "Saving as: $Snatch_Destination/$Snatch_CurrentFileName"
@@ -142,7 +142,7 @@ while read URL; do
         wget --show-progress -a "$Snatch_Log" -N -c -P "$Snatch_Destination/" "$URL"
         if [ "$Snatch_CalculateSHA256" == true ]; then
             Snatch_LogTee "Generating SHA256 Checksum: $Snatch_Destination/$Snatch_CurrentFileName.checksum"
-            shasum -a 256 "$Snatch_Destination/$Snatch_CurrentFileName">>"$Snatch_Destination/$Snatch_CurrentFileName.checksum"
+            shasum -a 256 "$Snatch_Destination/$Snatch_CurrentFileName">"$Snatch_Destination/$Snatch_CurrentFileName.checksum"
         fi
     fi
     Snatch_LogTee
